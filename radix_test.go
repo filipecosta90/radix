@@ -67,8 +67,8 @@ func TestDialAuth(t *T) {
 			opts = append(opts, DialAuthPass(test.dialOptPass))
 		}
 		_, err := Dial("tcp", test.url, opts...)
-		if err == nil || err.Error() != "ERR Client sent AUTH, but no password is set" {
-			t.Fatalf(`error "ERR Client sent AUTH..." expected, got: %v (test:%#v)`, err, test)
+		if err == nil || (err.Error() != "ERR Client sent AUTH, but no password is set" && err.Error() != "ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?") {
+			t.Fatalf(`error "ERR Client sent AUTH..." or "ERR AUTH <password> called..." expected, got: %v (test:%#v)`, err, test)
 		}
 	}
 }
